@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>贺城速报 - 新闻详情</title>
+    <style>
+        /* 全局重置与基础样式 - 模仿2005年风格 */
+        body { margin: 0; padding: 0; background-color: #eef2f5; font-family: "SimSun", "宋体", Arial, sans-serif; font-size: 12px; color: #333; }
+        a { text-decoration: none; color: #003399; } a:hover { text-decoration: underline; color: #ff6600; }
+        ul { list-style: none; padding: 0; margin: 0; }
+        
+        /* 布局容器 */
+        .container { width: 800px; margin: 0 auto; background: #fff; border-left: 1px solid #ccc; border-right: 1px solid #ccc; min-height: 100vh; }
+        
+        /* 顶部导航 */
+        .top-bar { background-color: #4a66b5; height: 30px; line-height: 30px; padding: 0 10px; color: #fff; display: flex; justify-content: space-between; }
+        .top-bar a { color: #fff; margin-right: 15px; font-weight: bold; }
+        .logo-area { background: linear-gradient(to bottom, #6b8ce0, #4a66b5); padding: 15px; border-bottom: 3px solid #ff9900; display: flex; align-items: center; justify-content: space-between; }
+        .logo-text { font-size: 28px; font-weight: bold; color: #fff; font-family: "Microsoft YaHei", sans-serif; text-shadow: 2px 2px 0px #000; }
+        
+        /* 搜索框区域 */
+        .search-box { display: flex; gap: 5px; }
+        .search-input { width: 200px; height: 24px; border: 1px solid #333; padding-left: 5px; }
+        .search-btn { height: 26px; background: #ff9900; border: 1px solid #fff; color: #fff; cursor: pointer; font-weight: bold; padding: 0 10px; }
+
+        /* 主体内容区 */
+        .main-layout { display: flex; padding: 10px; gap: 10px; }
+        .content-area { flex: 3; border: 1px solid #ddd; padding: 15px; background: #fff; }
+        .sidebar { flex: 1; border: 1px solid #ddd; background: #f7f9fc; }
+        
+        /* 新闻标题与正文 */
+        h1.news-title { font-size: 22px; color: #800000; border-bottom: 1px dashed #ccc; padding-bottom: 10px; margin-top: 0; }
+        .news-meta { color: #666; font-size: 12px; margin-bottom: 20px; text-align: center; }
+        .news-body { line-height: 1.8; font-size: 14px; text-indent: 2em; color: #000; }
+        .news-body p { margin-bottom: 15px; }
+        
+        /* 侧边栏模块 */
+        .module-title { background: #4a66b5; color: #fff; padding: 5px 10px; font-weight: bold; margin-bottom: 5px; }
+        .sidebar-list li { padding: 8px 10px; border-bottom: 1px dotted #ccc; }
+        .sidebar-list li a { color: #333; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+        /* 评论区 */
+        .comment-section { margin-top: 30px; border-top: 2px solid #4a66b5; padding-top: 10px; }
+        .comment-item { border-bottom: 1px dashed #ccc; padding: 10px 0; display: flex; gap: 10px; }
+        .avatar { width: 40px; height: 40px; background: #ddd; border: 1px solid #999; }
+        .comment-content h4 { margin: 0 0 5px 0; font-size: 12px; color: #003399; }
+        .comment-content p { margin: 0; color: #333; }
+        /* 特殊彩蛋样式 */
+        .glitch-text { color: red !important; font-weight: bold; font-family: "Courier New", monospace; animation: shake 0.5s infinite; }
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 顶部导航 -->
+    <div class="top-bar">
+        <div><a href="#">首页</a> | <a href="#">贺城新闻</a> | <a href="#">民生关注</a> | <a href="#">警情通报</a></div>
+        <div>登录 | 注册</div>
+    </div>
+    
+    <!-- Logo与搜索 -->
+    <div class="logo-area">
+        <div class="logo-text">贺城速报 HeCheng Daily</div>
+        <div class="search-box">
+            <!-- 核心交互输入框 -->
+            <input type="text" id="searchInput" class="search-input" placeholder="请输入关键词搜索...">
+            <button onclick="checkCode()" class="search-btn">站内搜索</button>
+        </div>
+    </div>
+
+    <!-- 主体布局 -->
+    <div class="main-layout">
+        <!-- 左侧新闻内容 -->
+        <div class="content-area">
+            <h1 class="news-title">高三学生离奇去世，警方表示排除他杀却死因未知</h1>
+            <div class="news-meta">发布时间：2019-11-17 09:42 &nbsp;&nbsp; 来源：贺城晚报 &nbsp;&nbsp; 点击：4044</div>
+            
+            <div class="news-body">
+                <p><strong>【本报讯】</strong> 昨日晚自习期间，我市第三中学高三（2）班发生了一起令人震惊的意外事件。学生顾某（化名）在教室内突然倒地昏迷，尽管校医及随后赶到的120急救人员进行了长达一小时的抢救，该生仍不幸离世。</p>
+                <p>据现场目击者称，事发时教室内的灯光曾出现不明原因的频闪，随后该生便发出狂笑。然而，令人费解的是，监控录像在事发时间段出现了严重的磁干扰，画面完全丢失。</p>
+                <p>今日凌晨，辖区派出所发布了初步通报。通报指出，经过法医现场勘验，死者体表无外伤，体内未检测出常见毒物反应，<strong>已正式排除他杀可能</strong>。但对于具体的死亡原因，目前仍无法给出医学解释，建议家属等待进一步的尸检报告。</p>
+                <p>目前，学校方面已封锁了事发教室，并暂停了晚自习课程。学生们情绪普遍较为恐慌，有学生反映最近常在深夜听到走廊里有奇怪的脚步声...</p>
+            </div>
+
+            <!-- 评论区 -->
+            <div class="comment-section">
+                <h3>网友评论 (共有 <span id="commentCount">3</span> 条评论)</h3>
+                <div id="commentList">
+                    <div class="comment-item">
+                        <div class="avatar"></div>
+                        <div class="comment-content">
+                            <h4>网友：路人甲</h4>
+                            <p>太可怕了，就在我也住那个小区附近，昨晚确实看到救护车了。</p>
+                        </div>
+                    </div>
+                    <div class="comment-item">
+                        <div class="avatar"></div>
+                        <div class="comment-content">
+                            <h4>网友：三中校友</h4>
+                            <p>那是重点班啊，听说这孩子成绩特别好，怎么突然就走了？</p>
+                        </div>
+                    </div>
+                     <div class="comment-item">
+                        <div class="avatar"></div>
+                        <div class="comment-content">
+                            <h4>网友：相信科学</h4>
+                            <p>可能是心源性猝死吧，现在孩子压力太大了。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 右侧侧边栏 -->
+        <div class="sidebar">
+            <div class="module-title">今日热点</div>
+            <ul class="sidebar-list">
+                <li><a href="#">[社会] 贺城大桥维修工程预计延期</a></li>
+                <li><a href="#">[财经] 本市第三季度GDP稳步增长</a></li>
+                <li><a href="#">[娱乐] 著名歌星下周莅临贺城开唱</a></li>
+                <li><a href="#">[科技] 新一代小灵通手机上市热销</a></li>
+                <li><a href="#">[体育] 市足球队在省运会中惜败</a></li>
+            </ul>
+            
+            <br>
+            
+            <div class="module-title">广告位招租</div>
+            <div style="height: 150px; background: #eee; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; color: #999;">
+                <img src="https://raw.githubusercontent.com/BEIXUAN1145/hecheng/4d833d4ee9eb50dea7568c1c6df0a243fd64858d/1377437-20201026115408310-1928859784.gif"
+     style="height: 80px; width: auto; float: left; margin-right: 10px; margin-bottom: 5px;">
+
+            </div>
+            
+             <br>
+            
+            <div class="module-title">相关链接</div>
+            <ul class="sidebar-list">
+                <li><a href="#">市教育局官网</a></li>
+                <li><a href="#">市公安局报警平台</a></li>
+            </ul>
+        </div>
+    </div> <!-- 结束 main-layout -->
+    
+    <div style="text-align: center; padding: 20px; color: #999; border-top: 1px solid #ccc;">
+        &copy; 2005 贺城速报网 版权所有
+    </div>
+</div> <!-- 结束 container -->
+<script>
+    // 定义触发彩蛋的密码
+    const SECRET_CODE = "Eyes on You";
+
+    function checkCode() {
+        // 获取用户输入并去除首尾空格
+        var inputVal = document.getElementById("searchInput").value.trim();
+        
+        // 判断是否匹配（不区分大小写）
+        if (inputVal.toLowerCase() === SECRET_CODE.toLowerCase()) {
+            triggerEasterEgg();
+        } else {
+            alert("未找到相关搜索结果：" + inputVal);
+        }
+    }
+
+    // 允许按回车键触发搜索
+    document.getElementById("searchInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            checkCode();
+        }
+    });
+
+    function triggerEasterEgg() {
+        var commentList = document.getElementById("commentList");
+        var countSpan = document.getElementById("commentCount");
+        
+        // 创建新的评论元素
+        var newComment = document.createElement("div");
+        newComment.className = "comment-item";
+        newComment.style.backgroundColor = "#ffebeb"; // 淡淡的红色背景
+        
+        // 填充诡异评论内容
+        newComment.innerHTML = `
+            <div class="avatar" style="background: #000;"></div>
+            <div class="comment-content">
+                <h4 style="color: #666;">[已注销账户]</h4>
+                <p class="glitch-text">那台机器有问题，别被祂骗了！</p>
+            </div>
+        `;
+        
+        // 将新评论插入到列表最前面
+        commentList.insertBefore(newComment, commentList.firstChild);
+        
+        // 更新评论数
+        countSpan.innerText = parseInt(countSpan.innerText) + 1;
+        
+        // 可选：弹窗提示或播放音效（这里仅做视觉变化）
+        // alert("系统检测到异常数据流..."); 
+    }
+</script>
+<!-- 彩蛋：BEIXUAN 警告遮罩 -->
+<div id="beixuan-warning" style="
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(255, 0, 0, 0.8); 
+    z-index: 9999; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+">
+    <h1 style="
+        color: white; 
+        font-size: 5rem; 
+        font-family: sans-serif; 
+        margin: 0;
+        text-shadow: 0 0 10px black;
+    ">不要窥探我</h1>
+</div>
+
+<script>
+    // 监听页面上所有 input 元素的输入事件
+    document.addEventListener('input', function(event) {
+        // 确保触发的是输入框，并且输入的值转为大写后是 'BEIXUAN'
+        if (event.target.tagName === 'INPUT' && event.target.value.toUpperCase() === 'BEIXUAN') {
+            const warning = document.getElementById('beixuan-warning');
+            
+            // 1. 显示红色警告遮罩
+            warning.style.display = 'flex';
+            
+            // 2. 3秒后自动隐藏遮罩（可以根据需要修改时间）
+            setTimeout(function() {
+                warning.style.display = 'none';
+            }, 3000);
+        }
+    });
+</script>
+
+</body>
+</html>
